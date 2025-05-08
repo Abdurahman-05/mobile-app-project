@@ -14,13 +14,13 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Install dependencies
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. Start the app
 
    ```bash
-    npx expo start
+    pnpm expo start
    ```
 
 In the output, you'll find options to open the app in a
