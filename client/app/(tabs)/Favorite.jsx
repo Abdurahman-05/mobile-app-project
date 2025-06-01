@@ -8,7 +8,7 @@ import { useNavigation } from "expo-router";
 
 const Favorite = () => {
   const { favorite } = useFavorite()
-
+ 
   const navigation = useNavigation()
   return (
     <ScrollView style={{flex:1,backgroundColor:"white"}}>
@@ -23,7 +23,7 @@ const Favorite = () => {
 
 
         <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'center',gap:10}}>
-        {favorite && favorite.length > 0 ? (
+        {favorite && favorite?.length > 0 ? (
             favorite.map(item => (
                 <RecipeItem key={item.id} item={item} />
             ))

@@ -21,6 +21,7 @@ const Signin = () => {
     setPasswordSignin,
     emailSignin,
     passwordSignin,
+    loginLoading
   } = useFavorite();
   return (
     <ImageBackground
@@ -48,7 +49,7 @@ const Signin = () => {
         <TextInput
           placeholderTextColor="gray"
           style={styles.textInput}
-          secureTextEntry={true}
+          // secureTextEntry={true}
           placeholder="Password"
           onChangeText={(text) => setPasswordSignin(text)}
           value={passwordSignin}
@@ -63,7 +64,7 @@ const Signin = () => {
               fontSize: 16,
             }}
           >
-            Sign in
+            {loginLoading ? "Loading..." : "Sign in"}
           </Text>
         </TouchableOpacity>
         <View

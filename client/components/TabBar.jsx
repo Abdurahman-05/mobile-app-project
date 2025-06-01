@@ -4,9 +4,10 @@ import {  Platform } from 'react-native';
 import { useLinkBuilder, useTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import { Dimensions } from 'react-native';
+const {width} = Dimensions.get("window")
 const TabBar = ({  state, descriptors, navigation }) => {
-
+ 
   const { colors } = useTheme();
   const { buildHref } = useLinkBuilder();
   return (
@@ -41,14 +42,14 @@ const TabBar = ({  state, descriptors, navigation }) => {
         });
       };
 
-        // Define icons for each route (Favorite, Order, and Home)
+     
         let iconName;
         if (route.name === 'Favorite') {
-          iconName = isFocused ? 'favorite' : 'favorite-border'; // Favorite tab
+          iconName = isFocused ? 'favorite' : 'favorite-border'; 
         } else if (route.name === 'Orders') {
-          iconName = isFocused ? 'shopping-cart' : 'shopping-cart'; // Order tab (same icon for focused and unfocused)
-        } else if (route.name === 'Home') {
-          iconName = isFocused ? 'home' : 'home'; // Home tab
+          iconName = isFocused ? 'shopping-cart' : 'shopping-cart'; 
+        } else if (route.name === 'Home' || route.name === 'Admin') {
+          iconName = isFocused ? 'home' : 'home'; 
         }
 
       return (
@@ -84,9 +85,9 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'space-between',
-    marginHorizontal:10,
     paddingVertical:10,
     position:'absolute',
+    left:10,
     bottom:10,
     backgroundColor:'#fff',
     borderRadius:30,
@@ -98,5 +99,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 10, 
     elevation: 5,
+    width:width*0.95
   },
 })
+
+
+

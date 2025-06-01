@@ -1,4 +1,4 @@
-const productList = [
+const SampleProduct = [
   {
     id: 1,
     title: "Spaghetti Carbonara",
@@ -10,7 +10,7 @@ const productList = [
       "Parmesan cheese",
       "Pancetta (or bacon)",
       "Black pepper",
-      "Garlic",
+      "Garlic"
     ],
     image: require("../assets/images/picture1.jpg"),
   },
@@ -41,7 +41,7 @@ const productList = [
       "Parmesan cheese",
       "Garlic",
       "Butter",
-      "Black pepper",
+      "Black pepper"
     ],
     image: require("../assets/images/picture3.jpg"),
   },
@@ -56,7 +56,7 @@ const productList = [
       "Fresh mozzarella",
       "Fresh basil",
       "Olive oil",
-      "Salt",
+      "Salt"
     ],
     image: require("../assets/images/picture4.jpg"),
   },
@@ -72,7 +72,7 @@ const productList = [
       "Lettuce",
       "Tomato",
       "Pickles",
-      "Burger sauce (mayo, mustard, ketchup)",
+      "Burger sauce"
     ],
     image: require("../assets/images/picture5.webp"),
   },
@@ -88,7 +88,7 @@ const productList = [
       "Sugar",
       "Flour",
       "Vanilla extract",
-      "Cocoa powder",
+      "Cocoa powder"
     ],
     image: require("../assets/images/picture6.jpg"),
   },
@@ -103,7 +103,7 @@ const productList = [
       "Parmesan cheese",
       "Croutons",
       "Lemon juice",
-      "Garlic",
+      "Garlic"
     ],
     image: require("../assets/images/picture7.jpg"),
   },
@@ -119,7 +119,7 @@ const productList = [
       "Onions",
       "Cilantro",
       "Lime",
-      "Chipotle seasoning",
+      "Chipotle seasoning"
     ],
     image: require("../assets/images/picture8.jpg"),
   },
@@ -157,4 +157,4 @@ const productList = [
   },
 ];
 
-export default productList;
+export default SampleProduct

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Pressable
 } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -14,26 +15,28 @@ import { useNavigation } from "expo-router";
 
 import { Colors } from "@/app-example/constants/Colors";
 import { useRoute } from "@react-navigation/native";
-import productList from "../data/Products";
 import { useFavorite } from "./GlobalContext/FavoriteContext";
 
 
 let { width, height } = Dimensions.get("screen");
 
 const Details = () => {
-  const{isFavorite,removeFromFavorite,addToFavorite} = useFavorite()
+  const{isFavorite,removeFromFavorite,addToCart,addToFavorite,product,isInTheCart,removeFromCart} = useFavorite()
   const navigation = useNavigation();
-  const route = useRoute();
-  const { id } = route.params;
+  const route = useRoute()
+  const { id } = route.params
 
-  const recipeObject = productList.find((obj) => obj.id === id);
+  const recipeObject = product.find((obj) => obj.id === id);
 
-  const{addToCart,removeFromCart,isInTheCart} = useFavorite()
+  
+  
 
   return (
     <ScrollView style={{ flex: 1,backgroundColor:"white"}}>
-      <View style={{ width: width }}>
-        <Image style={styles.detailImage} source={recipeObject.image} />
+      {
+        recipeObject ? 
+        <View style={{ width: width }}>
+        <Image style={styles.detailImage} source={{ uri: `http://localhost:5000${recipeObject.img}` }} />
         <SafeAreaView style={styles.safeArea}>
           <TouchableOpacity
             style={styles.backArrow}
@@ -41,17 +44,18 @@ const Details = () => {
           >
             <Icon name="chevron-left" size={35} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => isFavorite(recipeObject.id) ? removeFromFavorite(recipeObject.id) : addToFavorite(recipeObject)}>
+          <Pressable onPress={() => isFavorite(recipeObject.id) ? removeFromFavorite(recipeObject.id) : addToFavorite(recipeObject)}>
             <Icon
               name="favorite"
               size={40}
               color={isFavorite(recipeObject.id) ? "red" : "white"}
             />
-          </TouchableOpacity>
+          </Pressable>
         </SafeAreaView>
         <View style={styles.detailInfo}>
-          <Text style={styles.detailTitle}>{recipeObject.title}</Text>
-          <Text style={styles.description}>{recipeObject.detail}</Text>
+ 
+          <Text style={styles.detailTitle}>{recipeObject.name}</Text>
+          <Text style={styles.description}>{recipeObject.description}</Text>
           <View>
             {/* Button for add to cart */}
             <TouchableOpacity style={[styles.cartButton,{backgroundColor:isInTheCart(recipeObject.id) ? "gray" : "#FFD700"}]} onPress={() => isInTheCart(recipeObject.id) ? removeFromCart(recipeObject.id) : addToCart(recipeObject)} >
@@ -75,11 +79,13 @@ const Details = () => {
                       • {ingredient}
                     </Text>
                   ))
-                : <Text>fasjkl</Text>}
+                : <Text>There is no description</Text>}
             </View>
           </View>
         </View>
       </View>
+        : <Text>No Details</Text>
+      }
     </ScrollView>
   );
 };

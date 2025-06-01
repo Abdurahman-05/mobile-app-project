@@ -15,9 +15,9 @@ export default function RootLayout() {
   return (
     <FavoriteProvider>
         <Stack screenOptions={{headerShown:false}} >
-            <Stack.Screen name="favorite"></Stack.Screen>
+            {/* <Stack.Screen name="favorite"></Stack.Screen>
             <Stack.Screen name="home"></Stack.Screen>
-            <Stack.Screen name="orders"></Stack.Screen>
+            <Stack.Screen name="orders"></Stack.Screen> */}
         </Stack>
     </FavoriteProvider>
   );

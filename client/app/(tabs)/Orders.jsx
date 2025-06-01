@@ -4,17 +4,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useFavorite } from "../GlobalContext/FavoriteContext";
 import { useNavigation, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Orders = () => {
 
   const{cart,removeFromCart} = useFavorite()
 
+  const totalPrice = (cart.reduce((acc, item) => acc + item.price, 0)).toFixed(2)
+  const quantity = cart?.length
   const navigation = useNavigation()
   const route = useRouter()
 
 
   return (
-    <ScrollView style={{flex:1,backgroundColor:"white"}}>
+    <ScrollView style={{flex:1,backgroundColor:"white",marginBottom:50}}>
       <SafeAreaView style={styles.safeArea}>
         <TouchableOpacity
           style={styles.backArrow}
@@ -29,18 +32,18 @@ const Orders = () => {
 
        <View style={{paddingHorizontal:15,marginTop:14}}>
             {
-              cart && cart.length ? 
-                cart.map(cart => (
-                  <View key={cart.id} style={styles.orderItem}>
+              cart ? 
+                cart.map(c => (
+                  <View key={c.id} style={styles.orderItem}>
                     <View style={{flexDirection:'row',gap:12,alignItems:'center'}}>
-                      <Image style={styles.orderImage} source={cart.image} />
+                      <Image style={styles.orderImage} source={{ uri: `http://10.240.212.213:5000${c.img}` }} />
                       <View>
-                          <Text style={{fontFamily:'roboto-bold',fontSize:16,color:'black',marginBottom:2}}>{cart.title.length>16 ? cart.title.slice(0,16)+'...' : cart.title}</Text>
-                          <Text style={{fontFamily:'outfit',color:'gray'}}>$12</Text>
+                          <Text style={{fontFamily:'roboto-bold',fontSize:16,color:'black',marginBottom:2}}>{c?.name?.length>16 ? c.name.slice(0,16)+'...' : c.name}</Text>
+                          <Text style={{fontFamily:'outfit',color:'gray'}}>${c.price}</Text>
                       </View>
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() => removeFromCart(cart.id)}>
+                        <TouchableOpacity onPress={() => removeFromCart(c.id)}>
                             <Text style={{fontFamily:'outfit',fontSize:15,color:'red'}}>Cancel</Text>
                         </TouchableOpacity>
                     </View>
@@ -54,6 +57,32 @@ const Orders = () => {
               </View>
             }
        </View>
+
+
+       <View style={styles.container}>
+      <Text style={styles.summaryTitle}>Order Summary</Text>
+      
+      <View style={styles.divider} />
+      
+      <View style={styles.rowContainer}>
+        <Text style={styles.rowLabel}>Quantity</Text>
+        <Text style={styles.rowValue}>{quantity && quantity}</Text>
+      </View>
+      
+      
+      <View style={styles.divider} />
+      
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalLabel}>Total</Text>
+        <Text style={styles.totalValue}>${totalPrice && totalPrice}</Text>
+      </View>
+      
+      {/* <TouchableOpacity 
+        style={styles.checkoutButton}
+      >
+        <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
+      </TouchableOpacity> */}
+    </View>
     </ScrollView>
   );
 };
@@ -76,7 +105,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between',
         borderRadius:10,
-        paddingHorizontal:12,
+        paddingLeft:10,
+        paddingRight:20,
         paddingVertical:6,
         marginBottom:15
       },
@@ -84,5 +114,81 @@ const styles = StyleSheet.create({
         width:90,
         height:90,
         borderRadius:50
-      }
+      },
+
+
+
+
+
+
+
+
+
+      container: {
+        backgroundColor: 'white',
+        borderRadius: 12,
+        padding: 16,
+        marginHorizontal: 15,
+        marginTop: 10,
+        marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+      },
+      summaryTitle: {
+        fontFamily: 'roboto-bold',
+        fontSize: 18,
+        color: '#333',
+        marginBottom: 12,
+      },
+      divider: {
+        height: 1,
+        backgroundColor: '#EEEEEE',
+        marginVertical: 12,
+      },
+      rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 8,
+      },
+      rowLabel: {
+        fontFamily: 'outfit',
+        fontSize: 14,
+        color: '#595959',
+      },
+      rowValue: {
+        fontFamily: 'outfit',
+        fontSize: 14,
+        color: '#333',
+      },
+      totalContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 4,
+        marginBottom: 16,
+      },
+      totalLabel: {
+        fontFamily: 'roboto-bold',
+        fontSize: 16,
+        color: '#333',
+      },
+      totalValue: {
+        fontFamily: 'roboto-bold',
+        fontSize: 18,
+        color: '#333',
+      },
+      checkoutButton: {
+        backgroundColor: '#FFD700',
+        borderRadius: 8,
+        paddingVertical: 14,
+        alignItems: 'center',
+        marginTop: 8,
+      },
+      checkoutButtonText: {
+        fontFamily: 'roboto-bold',
+        fontSize: 16,
+        color: 'white',
+      },
 });

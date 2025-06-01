@@ -1,10 +1,21 @@
 import { Text,StyleSheet,TouchableOpacity, Image, View, ImageBackground } from "react-native";
 import { Colors } from "@/app-example/constants/Colors";
 import { useRouter } from "expo-router";
+import { useFavorite } from "./GlobalContext/FavoriteContext";
+import React,{useEffect} from "react";
 
 export default function Index() {
 
   const router = useRouter()
+  // const {isLoggedIn} = useFavorite()
+
+
+
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     router.push("/(tabs)/Home");
+  //   }
+  // }, [isLoggedIn]);
 
   return (
     <View style={styles.container} >

@@ -15,16 +15,18 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  email     String    @unique
-  password  String
-  username  String    
-  role      UserRole  @default(USER)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  email         String        @unique
+  password      String
+  username      String   
+  img           String? 
+  role          UserRole      @default(USER)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
-  favorites Favorite[]
-  orders    Order[]
+  favorites     Favorite[]
+  orders        Order[]
+  notifications Notification[]
 }
 
 model Product {
@@ -39,7 +41,7 @@ model Product {
   updatedAt   DateTime  @updatedAt
 
   favorites   Favorite[]
-  orders      Order[]
+  orderItems  OrderItem[]
 }
 
 model Favorite {
@@ -54,16 +56,68 @@ model Favorite {
 }
 
 model Order {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
-  productId String   @db.ObjectId
-  createdAt DateTime @default(now())
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String      @db.ObjectId
+  status          OrderStatus @default(PENDING)
+  totalAmount     Float
+  deliveryAddress String?
+  paymentMethod   PaymentMethod @default(CASH)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 
-  user      User     @relation(fields: [userId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  user            User        @relation(fields: [userId], references: [id])
+  orderItems      OrderItem[]
+}
+
+model OrderItem {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId     String   @db.ObjectId
+  productId   String   @db.ObjectId
+  quantity    Int      @default(1)
+  price       Float
+  name        String
+  
+  order       Order    @relation(fields: [orderId], references: [id])
+  product     Product? @relation(fields: [productId], references: [id])
 }
 
 enum UserRole {
   ADMIN
   USER
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  DEBIT_CARD
+  PAYPAL
+}
+
+model Notification {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String            @db.ObjectId
+  type        NotificationType
+  title       String
+  message     String
+  isRead      Boolean           @default(false)
+  relatedId   String?           @db.ObjectId
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  user        User              @relation(fields: [userId], references: [id])
+}
+
+enum NotificationType {
+  ORDER_STATUS
+  PROMOTION
+  SYSTEM
+  PAYMENT
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View,Image,StyleSheet,Text,TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
+import { View,Image,StyleSheet,Text,Pressable, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Colors } from "@/app-example/constants/Colors";
 import { useNavigation, useRouter } from "expo-router";
@@ -14,9 +14,9 @@ import { useFavorite } from './GlobalContext/FavoriteContext';
   return (
     <View style={styles.header}>
         <View style={styles.profileContainer}>
-            <TouchableWithoutFeedback onPress={() => route.push('/Profile')}>
+            <Pressable onPress={() => route.push('/Profile')}>
                <Image style={styles.profiles} source={require('../assets/profiles/pic.jpg')} />
-            </TouchableWithoutFeedback>
+            </Pressable>
             <View >
                 <Text style={{fontSize:16,color:'gray',fontFamily:'outfit',marginBottom:-3}}>Welcome</Text>
                 <Text style={{fontFamily:'outfit',color:Colors.darkGray,fontSize:14}}>{name ? name : "user"}!</Text>
